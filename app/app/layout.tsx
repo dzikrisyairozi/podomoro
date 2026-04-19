@@ -13,7 +13,35 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="antialiased">
+      <head>
+        {/* Flash-prevention script: must run before any stylesheets */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+(function () {
+  try {
+    var stored = localStorage.getItem('podomoro:theme');
+    if (stored === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else if (stored === 'light') {
+      document.documentElement.classList.remove('dark');
+    } else {
+      // No preference stored — respect OS preference
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.classList.add('dark');
+      }
+    }
+  } catch (e) {}
+})();
+            `,
+          }}
+        />
+      </head>
+      <body
+        className="min-h-screen bg-neutral-50 dark:bg-neutral-950
+                   text-neutral-900 dark:text-neutral-100
+                   antialiased font-sans"
+      >
         {children}
       </body>
     </html>
