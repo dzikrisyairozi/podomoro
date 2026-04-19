@@ -1,14 +1,22 @@
+"use client";
+
+import Header from "@/components/Header";
+import Timer from "@/components/Timer";
+import { useDebugMode } from "@/lib/useDebugMode";
+
 export default function Home() {
+  const { debug, toggleDebug } = useDebugMode();
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-white dark:bg-gray-950">
-      <div className="text-center">
-        <h1 className="text-5xl font-bold tracking-tight text-gray-900 dark:text-white">
-          Podomoro
-        </h1>
-        <p className="mt-4 text-lg text-gray-500 dark:text-gray-400">
-          Your Pomodoro timer — coming soon.
-        </p>
-      </div>
-    </main>
+    <>
+      <Header debug={debug} onDebugToggle={toggleDebug} />
+      <main
+        className="flex flex-col lg:flex-row lg:items-start lg:justify-center
+                   gap-8 px-4 py-8 lg:px-8 lg:py-12
+                   max-w-5xl mx-auto"
+      >
+        <Timer debug={debug} />
+      </main>
+    </>
   );
 }
